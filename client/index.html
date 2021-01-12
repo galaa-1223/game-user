@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+          text-align: center;
+        }
+        .board {
+          margin: auto;
+          width: 350px;
+        }
+        .board button {
+          height: 100px;
+          width: 100px;
+          margin: 0px;
+          padding: 0px;
+          float: left;
+          margin-right: 10px;
+          margin-bottom: 10px;
+          font-size: 3em;
+        }
+      </style>
+</head>
+<body>
+    <div class="board">
+        <div id="messages">Ursuldugch huleej bn....</div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+
+        var myTurn = true;
+
+        function renderTurnMessage() {
+            // Toglogch shalgaj bn
+            if (!myTurn) {
+                $("#messages").text("Ursuldugch toglohod belen");
+            } else {
+                $("#messages").text("Toglohod benel.");
+            }
+        }
+
+
+        socket.on("game.begin", function(data) {
+            renderTurnMessage();
+        });
+
+        socket.on("opponent.left", function() {
+            $("#messages").text("Ursuldugch chine garaad yavchihloo sda chini.");
+        });
+
+        socket.on('messages', function(data) {
+            $("#messages").text(data);
+        });
+    </script>
+    </body>
+</html>
